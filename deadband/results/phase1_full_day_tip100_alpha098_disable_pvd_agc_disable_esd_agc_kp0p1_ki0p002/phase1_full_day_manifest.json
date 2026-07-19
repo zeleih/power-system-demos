@@ -1,0 +1,20 @@
+{
+  "candidate_csv": "/Applications/openandes/demo/demo/deadband/results/phase1_deadband_tip100_alpha098_disable_pvd_agc_disable_esd_agc_kp0p1_ki0p002/phase1_top_candidates.csv",
+  "baseline_results_dir": "/Applications/openandes/demo/demo/deadband/results/day96_hotstart_casefile_tgov1ndb_restore0_17_tip100_alpha098_disable_pvd_agc_disable_esd_agc_kp0p1_ki0p002_aw_headroom_applygov",
+  "dispatch_dir": "/Applications/openandes/demo/demo/deadband/results/dispatches_day96_curveorig_opf_aligned_dyncase_slack47_pmax730_sn730_alpha098",
+  "dyn_case": "/Applications/openandes/demo/demo/deadband/cases/IL200_dyn_db2_stable_tgov1ndb_restore0_17_pvd005_esd001_storage5_slack47_pmax730_sn730_tip100.xlsx",
+  "stable_dyn_case": "/Applications/openandes/demo/demo/deadband/cases/IL200_dyn_db2_stable_tgov1ndb_restore0_17_pvd005_esd001_storage5_slack47_pmax730_sn730_tip100.xlsx",
+  "curve_file": "/Applications/openandes/demo/demo/deadband/cases/CurveInterp.csv",
+  "plot_python": "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+  "top_k": 6,
+  "kp": 0.1,
+  "ki": 0.002,
+  "wind_pref_alpha": 0.98,
+  "solar_pref_alpha": 0.98,
+  "agc_allocation_mode": "headroom_aware",
+  "agc_anti_windup_mode": "freeze_on_saturation",
+  "disable_der_agc": false,
+  "disable_pvd_agc": true,
+  "disable_esd_agc": true,
+  "force_restart": false
+}

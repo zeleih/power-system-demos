@@ -1,0 +1,14 @@
+{
+  "candidate_count": 6,
+  "completed_candidate_count": 6,
+  "last_completed_combo_id": "wind045_pv025_esd015",
+  "accepted_candidate_count": 6,
+  "top_candidate_ids": [
+    "wind036_pv025_esd015",
+    "wind036_pv030_esd015",
+    "wind036_pv025_esd020",
+    "wind045_pv025_esd015",
+    "wind065_pv025_esd015",
+    "wind055_pv025_esd015"
+  ]
+}

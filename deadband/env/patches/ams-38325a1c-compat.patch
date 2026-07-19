@@ -1,0 +1,392 @@
+diff --git a/ams/cli.py b/ams/cli.py
+index c7518ac9..4454d218 100644
+--- a/ams/cli.py
++++ b/ams/cli.py
+@@ -8,7 +8,15 @@ import platform
+ import sys
+ from time import strftime
+ 
+-from andes.shared import NCPUS_PHYSICAL
++try:
++    from andes.shared import NCPUS_PHYSICAL
++except ImportError:
++    try:
++        import os
++        import psutil
++        NCPUS_PHYSICAL = psutil.cpu_count(logical=False) or os.cpu_count() or 1
++    except Exception:
++        NCPUS_PHYSICAL = 1
+ 
+ from ams.main import config_logger
+ from ams.utils.paths import get_log_dir
+diff --git a/ams/core/model.py b/ams/core/model.py
+index d7318e26..7d6bd4b9 100644
+--- a/ams/core/model.py
++++ b/ams/core/model.py
+@@ -27,6 +27,8 @@ class Model:
+     This class is revised from ``andes.core.model.Model``.
+     """
+ 
++    _SENTINEL = object()
++
+     def __init__(self, system=None, config=None):
+ 
+         # --- Model ---
+@@ -51,6 +53,18 @@ class Model:
+                                     ('adjust_lower', 0),
+                                     ('adjust_upper', 1),
+                                      )))
++
++        self.config.add_extra("_help",
++                              allow_adjust='allow adjusting upper or lower limits',
++                              adjust_lower='adjust lower limit',
++                              adjust_upper='adjust upper limit',
++                              )
++
++        self.config.add_extra("_alt",
++                              allow_adjust=(0, 1),
++                              adjust_lower=(0, 1),
++                              adjust_upper=(0, 1),
++                              )
+         self.docum = Documenter(self)
+ 
+     def _all_vars(self):
+@@ -177,7 +191,7 @@ class Model:
+                         for i in uid]
+         return self.__dict__[src].__dict__[attr][uid]
+ 
+-    def set(self, src, idx, attr, value):
++    def set(self, src, idx, *args, value=_SENTINEL, attr='v', base=None):
+         """
+         Set the value of an attribute of a model property.
+ 
+@@ -195,19 +209,36 @@ class Model:
+             Name of the model property
+         idx : str, int, float, array-like
+             Indices of the devices
+-        attr : str, optional, default='v'
+-            The internal attribute of the property to get.
+-            ``v`` for values, ``a`` for address, and ``e`` for equation value.
+         value : array-like
+-            New values to be set
++            New values to be set. Can be passed either as the legacy
++            positional ``(attr, value)`` pair or as the ANDES 2.0-style
++            ``value=...`` keyword.
+ 
+         Returns
+         -------
+         bool
+             True when successful.
+         """
++        if base not in (None, 'device'):
++            raise ValueError(f"Unsupported base={base!r} in AMS Model.set()")
++
++        if len(args) == 2:
++            attr = args[0]
++            actual_value = args[1]
++        elif len(args) == 1 and value is self._SENTINEL:
++            actual_value = args[0]
++        elif len(args) == 0 and value is not self._SENTINEL:
++            actual_value = value
++        elif len(args) == 0 and value is self._SENTINEL:
++            raise TypeError("set() missing 'value'")
++        else:
++            raise TypeError(
++                "set() got unexpected arguments. "
++                "Usage: set(src, idx, value, *, attr='v', base=None)"
++            )
++
+         uid = self.idx2uid(idx)
+-        self.__dict__[src].__dict__[attr][uid] = value
++        self.__dict__[src].__dict__[attr][uid] = actual_value
+         return True
+ 
+     def alter(self, src, idx, value, attr='v'):
+diff --git a/ams/interface.py b/ams/interface.py
+index 0019d5f0..021213f1 100644
+--- a/ams/interface.py
++++ b/ams/interface.py
+@@ -107,15 +107,14 @@ def to_andes_pflow(system, no_output=False, default_config=True, **kwargs):
+         Additional arguments to be passed to ``andes.system.System()``.
+     """
+ 
+-    adsys = adSystem(no_outpu=no_output, default_config=default_config, **kwargs)
++    adsys = adSystem(no_output=no_output, default_config=default_config, **kwargs)
+     # FIXME: is there a systematic way to do this? Other config might be needed
+     adsys.config.freq = system.config.freq
+     adsys.config.mva = system.config.mva
+ 
+     for mdl_name, mdl_cols in pflow_dict.items():
+         mdl = getattr(system, mdl_name)
+-        mdl.cache.refresh("df_in")  # refresh cache
+-        for row in mdl.cache.df_in[mdl_cols].to_dict(orient='records'):
++        for row in mdl.as_df(vin=True)[mdl_cols].to_dict(orient='records'):
+             adsys.add(mdl_name, row)
+ 
+     return adsys
+diff --git a/ams/io/psse.py b/ams/io/psse.py
+index 53f8233c..5ad3fef8 100644
+--- a/ams/io/psse.py
++++ b/ams/io/psse.py
+@@ -78,7 +78,7 @@ def write_raw(system, outfile: str, overwrite: bool = None):
+         f.write(f"{name.upper()} \n")
+ 
+         # --- Bus ---
+-        bus = system.Bus.cache.df_in
++        bus = system.Bus.as_df(vin=True)
+         # 0,  1,    2,      3,    4,    5,    6,     7,  8,  9,    10
+         # ID, Name, BaseKV, Type, Area, Zone, Owner, Vm, Va, Vmax, Vmin
+         # Define column widths for alignment
+@@ -105,7 +105,7 @@ def write_raw(system, outfile: str, overwrite: bool = None):
+ 
+         # --- Load ---
+         f.write("0 / END OF BUS DATA, BEGIN LOAD DATA\n")
+-        load = system.PQ.cache.df_in
++        load = system.PQ.as_df(vin=True)
+         # 0,   1,  2,      3,    4,    5,      6,       7,  8,  9,  10, 11
+         # Bus, Id, Status, Area, Zone, PL(MW), QL (MW), IP, IQ, YP, YQ, Owner
+         # NOTE: load are converted to constant load, IP, IQ, YP, YQ are ignored by setting to 0
+@@ -136,7 +136,7 @@ def write_raw(system, outfile: str, overwrite: bool = None):
+ 
+         # --- Fixed Shunt ---
+         f.write("0 / END OF LOAD DATA, BEGIN FIXED SHUNT DATA\n")
+-        shunt = system.Shunt.cache.df_in
++        shunt = system.Shunt.as_df(vin=True)
+         # 0,   1,  2,      3,      4
+         # Bus, Id, Status, G (MW), B (Mvar)
+         # NOTE: ANDES parse v33 swshunt into fixed shunt
+@@ -161,8 +161,8 @@ def write_raw(system, outfile: str, overwrite: bool = None):
+ 
+         # --- Generator ---
+         f.write("0 / END OF FIXED SHUNT DATA, BEGIN GENERATOR DATA\n")
+-        pv = system.PV.cache.df_in
+-        slack = system.Slack.cache.df_in
++        pv = system.PV.as_df(vin=True)
++        slack = system.Slack.as_df(vin=True)
+ 
+         gen = pd.concat([pv, slack.drop(columns=['a0'])], axis=0)
+         gen["subidx"] = gen.groupby('bus').cumcount() + 1
+@@ -203,7 +203,7 @@ def write_raw(system, outfile: str, overwrite: bool = None):
+ 
+         # --- Line ---
+         f.write("0 / END OF GENERATOR DATA, BEGIN BRANCH DATA\n")
+-        line = system.Line.cache.df_in
++        line = system.Line.as_df(vin=True)
+         branch = line[line['trans'] == 0].reset_index(drop=True)
+         transf = line[line['trans'] == 1].reset_index(drop=True)
+         # 1) branch
+@@ -267,7 +267,7 @@ def write_raw(system, outfile: str, overwrite: bool = None):
+ 
+             # --- Area ---
+             f.write("0 / END OF TRANSFORMER DATA, BEGIN AREA DATA\n")
+-            area = system.Area.cache.df_in
++            area = system.Area.as_df(vin=True)
+             for row in area.itertuples():
+                 # PSSE expects: ID, ISW, PDES, PTOL, NAME
+                 # Here, ISW, PDES, PTOL are set to 0 by default
+@@ -275,7 +275,7 @@ def write_raw(system, outfile: str, overwrite: bool = None):
+ 
+             # --- Zone ---
+             f.write("0 / END OF AREA DATA, BEGIN ZONE DATA\n")
+-            zone = system.Zone.cache.df_in
++            zone = system.Zone.as_df(vin=True)
+             # 0,    1
+             # ID, Name
+             for row in zone.itertuples():
+diff --git a/ams/main.py b/ams/main.py
+index 0a3f9041..4a6be97d 100644
+--- a/ams/main.py
++++ b/ams/main.py
+@@ -18,9 +18,26 @@ import textwrap
+ from ._version import get_versions
+ 
+ from andes.main import _find_cases
+-from andes.shared import Pool, Process, coloredlogs, unittest, NCPUS_PHYSICAL
++from andes.shared import Pool, Process, unittest
+ from andes.utils.misc import elapsed, is_interactive
+ 
++try:
++    from andes.shared import coloredlogs
++except ImportError:
++    try:
++        import coloredlogs  # type: ignore[no-redef]
++    except ImportError:
++        coloredlogs = None
++
++try:
++    from andes.shared import NCPUS_PHYSICAL
++except ImportError:
++    try:
++        import psutil
++        NCPUS_PHYSICAL = psutil.cpu_count(logical=False) or os.cpu_count() or 1
++    except Exception:
++        NCPUS_PHYSICAL = os.cpu_count() or 1
++
+ import ams
+ from ams.routines import routine_cli
+ from ams.system import System
+@@ -111,7 +128,7 @@ def config_logger(stream_level=logging.INFO, *,
+         set_logger_level(lg, logging.StreamHandler, stream_level)
+         set_logger_level(lg, logging.FileHandler, file_level)
+ 
+-    if not is_interactive():
++    if not is_interactive() and coloredlogs is not None:
+         coloredlogs.install(logger=lg, level=stream_level, fmt=sh_formatter_str)
+ 
+ 
+diff --git a/ams/shared.py b/ams/shared.py
+index 418034b6..ca5a13c7 100644
+--- a/ams/shared.py
++++ b/ams/shared.py
+@@ -10,6 +10,8 @@ from functools import wraps
+ from time import strftime
+ 
+ import cvxpy as cp
++import numpy as _np
++from scipy.sparse import spmatrix as _spmatrix
+ 
+ from andes.utils.lazyimport import LazyImport
+ 
+@@ -19,6 +21,15 @@ from ._version import get_versions
+ 
+ logger = logging.getLogger(__name__)
+ 
++# Compatibility aliases for legacy PYPOWER on NumPy 2.x+.
++# PYPOWER still imports names such as ``Inf`` and ``NaN`` directly from NumPy.
++if not hasattr(_np, "Inf"):
++    _np.Inf = _np.inf
++if not hasattr(_np, "NaN"):
++    _np.NaN = _np.nan
++if not hasattr(_spmatrix, "H"):
++    _spmatrix.H = property(lambda self: self.conjugate().transpose())
++
+ sps = LazyImport('import scipy.sparse as sps')
+ np = LazyImport('import numpy as np')
+ pd = LazyImport('import pandas as pd')
+@@ -223,8 +234,7 @@ def model2df(instance, skip_empty, to_andes):
+     if name not in ad_models and to_andes:
+         return None
+ 
+-    instance.cache.refresh("df_in")
+-    df = instance.cache.df_in
++    df = instance.as_df(vin=True)
+ 
+     if to_andes:
+         skipped_params = ams_params_not_in_andes(name, df.columns.tolist())
+diff --git a/ams/system.py b/ams/system.py
+index e22b6ed4..4c9be76c 100644
+--- a/ams/system.py
++++ b/ams/system.py
+@@ -4,13 +4,13 @@ Module for system.
+ import importlib
+ import inspect
+ import logging
+-from collections import OrderedDict
++from collections import OrderedDict, defaultdict
+ from typing import Dict, Optional
+ 
+ import numpy as np
+ 
+ from andes.system import System as adSystem
+-from andes.system import (_config_numpy, load_config_rc)
++from andes.system.config_runtime import SystemConfigRuntime
+ from andes.variables import FileMan
+ 
+ from andes.utils.misc import elapsed
+@@ -146,59 +146,80 @@ class System(adSystem):
+             self.options.update(options)
+         if kwargs:
+             self.options.update(kwargs)
++        self.calls = OrderedDict()           # compatibility with ANDES 2.0 runtime helpers
+         self.models = OrderedDict()          # model names and instances
+         self.model_aliases = OrderedDict()   # alias: model instance
+         self.groups = OrderedDict()          # group names and instances
+         self.routines = OrderedDict()        # routine names and instances
+         self.types = OrderedDict()           # type names and instances
++        self.switch_times = np.array([])
++        self.switch_dict = OrderedDict()
++        self.with_calls = False
++        self.n_switches = 0
+         self.mats = MatProcessor(self)       # matrix processor
+         # TODO: there should be an exit_code for each routine
+         self.exit_code = 0                   # command-line exit code, 0 - normal, others - error.
+         self.recent = None                   # recent solved routines
+         self.dyn = None                      # ANDES system
++        self.call_stats = defaultdict(dict)
++        self.antiwindups = list()
++        self.no_check_init = list()
++        self._status_children = {}
++        self._status_parent_map = {}
+ 
+         # get and load default config file
++        self.config_runtime = SystemConfigRuntime(self)
+         self._config_path = get_config_path()
+         if config_path is not None:
+             self._config_path = config_path
+         if default_config is True:
+             self._config_path = None
+ 
+-        self._config_object = load_config_rc(self._config_path)
+-        self._update_config_object()
++        self._config_object = self.config_runtime.load_config_rc(self._config_path)
++        self.config_runtime.apply_cli_overrides()
+         self.config = Config(self.__class__.__name__, dct=config)
++        runtime_hint = 'Use [Runtime] section instead.'
++        self.config._deprecated.update({
++            'numba': runtime_hint,
++            'numba_parallel': runtime_hint,
++            'numba_nopython': runtime_hint,
++            'yapf_pycode': runtime_hint,
++            'save_stats': runtime_hint,
++            'ipadd': runtime_hint,
++            'sparselib': runtime_hint,
++            'seed': runtime_hint,
++            'np_divide': runtime_hint,
++            'np_invalid': runtime_hint,
++            'dime_enabled': runtime_hint,
++            'dime_name': runtime_hint,
++            'dime_address': runtime_hint,
++        })
+         self.config.load(self._config_object)
+ 
+         # custom configuration for system goes after this line
+         self.config.add(OrderedDict((('freq', 60),
+                                      ('mva', 100),
+-                                     ('seed', 'None'),
+-                                     ('save_stats', 0),  # TODO: not sure what this is for
+-                                     ('np_divide', 'warn'),
+-                                     ('np_invalid', 'warn'),
+                                      )))
+ 
+         self.config.add_extra("_help",
+                               freq='base frequency [Hz]',
+                               mva='system base MVA',
+-                              seed='seed (or None) for random number generator',
+-                              np_divide='treatment for division by zero',
+-                              np_invalid='treatment for invalid floating-point ops.',
+                               )
+ 
+         self.config.add_extra("_alt",
+                               freq="float",
+                               mva="float",
+-                              seed='int or None',
+-                              np_divide={'ignore', 'warn', 'raise', 'call', 'print', 'log'},
+-                              np_invalid={'ignore', 'warn', 'raise', 'call', 'print', 'log'},
+                               )
+ 
+         self.config.check()
+-        _config_numpy(seed=self.config.seed,
+-                      divide=self.config.np_divide,
+-                      invalid=self.config.np_invalid,
+-                      )
++        self.runtime = Config('Runtime')
++        self.runtime.load(self._config_object)
++        self.config_runtime._add_runtime_defaults()
++        self.runtime.check()
++        self.config_runtime.configure_numpy(seed=self.runtime.seed,
++                                            divide=self.runtime.np_divide,
++                                            invalid=self.runtime.np_invalid,
++                                            )
+ 
+         # TODO: revise the following attributes, it seems that these are not used in AMS
+         self._getters = dict(f=list(), g=list(), x=list(), y=list())

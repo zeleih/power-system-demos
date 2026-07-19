@@ -1,0 +1,14 @@
+.DS_Store
+**/.DS_Store
+**/.ipynb_checkpoints/
+**/.venv/
+**/venv/
+**/__pycache__/
+**/.cache/
+**/*.py[cod]
+**/*.egg-info/
+**/*.tmp
+**/*.log
+**/results/**/checkpoints/
+**/results/**/*snapshot*.pkl
+**/results/**/system.pkl

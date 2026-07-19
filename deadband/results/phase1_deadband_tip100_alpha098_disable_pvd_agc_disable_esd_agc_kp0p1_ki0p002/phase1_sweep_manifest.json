@@ -1,0 +1,49 @@
+{
+  "dyn_case": "/Users/hhuhzl/openandes/deadband/cases/IL200_dyn_db2_stable_tgov1ndb_restore0_17_pvd005_esd001_storage5_slack47_pmax730_sn730_tip100.xlsx",
+  "stable_dyn_case": "/Users/hhuhzl/openandes/deadband/cases/IL200_dyn_db2_stable_tgov1ndb_restore0_17_pvd005_esd001_storage5_slack47_pmax730_sn730_tip100.xlsx",
+  "dispatch_dir": "/Users/hhuhzl/openandes/deadband/results/phase1_full_day_tip100_alpha098_disable_pvd_agc_disable_esd_agc_kp0p1_ki0p002/wind036_pv025_esd015",
+  "curve_file": "/Users/hhuhzl/openandes/deadband/cases/CurveInterp.csv",
+  "dispatch_interval": 900,
+  "agc_interval": 4,
+  "kp": 0.1,
+  "ki": 0.002,
+  "wind_pref_alpha": 0.98,
+  "solar_pref_alpha": 0.98,
+  "agc_allocation_mode": "headroom_aware",
+  "agc_anti_windup_mode": "freeze_on_saturation",
+  "disable_der_agc": false,
+  "disable_pvd_agc": true,
+  "disable_esd_agc": true,
+  "init_mode": "first",
+  "governor_target_schedule": "ramp_limited_basepoint",
+  "governor_basepoint_ramp_floor_frac_pmax_per_min": 0.005,
+  "governor_basepoint_ramp_gap_factor": 1.25,
+  "windows": [
+    "h2d3_h3d0",
+    "h7d3_h8d2",
+    "h11d2_h11d3",
+    "h15d1_h15d2",
+    "h20d3_h21d0"
+  ],
+  "wind_deadband_list": [
+    0.036,
+    0.045,
+    0.055,
+    0.065
+  ],
+  "solar_deadband_list": [
+    0.025,
+    0.03,
+    0.036,
+    0.042
+  ],
+  "esd_deadband_list": [
+    0.015,
+    0.02,
+    0.025,
+    0.03
+  ],
+  "max_abs_hz_threshold": 0.1,
+  "share_abs_gt_0p05_threshold": 0.05,
+  "combo_count": 56
+}

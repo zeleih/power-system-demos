@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "If you use this reproduction package, please cite the paper below."
+title: "Reproduction package: Deadband-Edge Frequency Accumulation in Converter-Rich Power Systems"
+authors:
+  - family-names: "Han"
+    given-names: "Zelei"
+    orcid: "https://orcid.org/0009-0009-6635-2862"
+repository-code: "https://github.com/zeleih/deadband"
+license: GPL-3.0
+preferred-citation:
+  type: article
+  title: "Deadband-Edge Frequency Accumulation in Converter-Rich Power Systems: Mechanism and Heterogeneous Deadband Design"
+  authors:
+    - family-names: "Han"
+      given-names: "Zelei"
+      orcid: "https://orcid.org/0009-0009-6635-2862"
+    - family-names: "Wang"
+      given-names: "Jinning"
+      orcid: "https://orcid.org/0000-0001-9302-3364"
+    - family-names: "Sun"
+      given-names: "Biao"
+      orcid: "https://orcid.org/0000-0001-7082-1320"
+    - family-names: "Wen"
+      given-names: "Yan"
+      orcid: "https://orcid.org/0009-0004-9880-5620"
+    - family-names: "Ju"
+      given-names: "Ping"
+      orcid: "https://orcid.org/0000-0003-4635-9177"
+    - family-names: "Liu"
+      given-names: "Yilu"
+      orcid: "https://orcid.org/0000-0002-6707-9062"
+  year: 2026
+  notes: "Preprint; under review."

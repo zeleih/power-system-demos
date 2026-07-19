@@ -1,0 +1,25 @@
+# Core pinned dependencies for reproducing the deadband paper results.
+# These pins match the environment that produced the archived reference
+# results (see requirements-frozen.txt for the complete freeze).
+numpy==2.4.4
+scipy==1.17.1
+pandas==3.0.2
+matplotlib==3.10.8
+sympy==1.14.0
+cvxpy==1.6.5
+PYPOWER==5.1.19
+clarabel==0.11.1
+scs==3.2.11
+osqp==1.1.1
+highspy==1.14.0
+kvxopt==1.3.3.1
+openpyxl==3.1.5
+xlsxwriter==3.2.9
+PyYAML==6.0.3
+chardet==7.4.3
+coloredlogs
+tqdm==4.67.3
+texttable==1.7.0
+dill==0.4.1
+psutil==7.2.2
+requests==2.33.1
