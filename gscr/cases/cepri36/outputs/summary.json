@@ -1,0 +1,33 @@
+{
+  "rebuilt_network_gscr": 0.17140949759782695,
+  "paper_actual_gscr": 0.1701,
+  "relative_difference_percent": 0.7698398576290177,
+  "psasp_validation": {
+    "ac_line_rmse_pu": 2.088136010083661e-05,
+    "ac_line_max_abs_error_pu": 0.00011177159779984791,
+    "two_winding_transformer_rmse_pu": 1.35160318967079e-06,
+    "two_winding_transformer_max_abs_error_pu": 3.6760896966470114e-06
+  },
+  "retained_buses": [
+    "BUS1",
+    "BUS2",
+    "BUS3",
+    "BUS4",
+    "BUS5",
+    "BUS6",
+    "BUS7",
+    "BUS8"
+  ],
+  "capacity_mva": [
+    1880.0,
+    706.0,
+    882.0,
+    235.0,
+    637.5,
+    100.0,
+    286.0,
+    388.399994
+  ],
+  "clean_fault_identified_mean": 0.17140949759782523,
+  "clean_load_identified": 0.171409497597825
+}

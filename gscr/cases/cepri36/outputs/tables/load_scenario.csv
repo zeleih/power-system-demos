@@ -1,0 +1,2 @@
+﻿scenario,paper_actual,paper_identified,reproduced_direct,reproduced_identified,absolute_error_to_rebuilt_network,residual_rmse,design_rank,design_condition
+load_bus50,0.1701,0.165,0.17140949759782695,0.171409497597825,1.942890293094024e-15,1.8626451492309571e-10,72,3.7863208366724685

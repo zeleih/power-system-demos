@@ -1,0 +1,9 @@
+{
+  "port_count": 3,
+  "increment_count": 159,
+  "voltage_rank": 3,
+  "relative_y_error": 2.340421000474935e-16,
+  "direct_gscr": 3.593675181315796,
+  "identified_gscr": 3.593675181315795,
+  "gscr_absolute_error": 8.881784197001252e-16
+}

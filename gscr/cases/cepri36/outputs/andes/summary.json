@@ -1,0 +1,191 @@
+{
+  "engine": "ANDES 2.0.0",
+  "case_workbook": "data\\andes\\CEPRI36_andes.xlsx",
+  "model_counts": {
+    "Bus": 36,
+    "PQ": 12,
+    "PV": 7,
+    "Slack": 1,
+    "Shunt": 4,
+    "Line": 41,
+    "Area": 3,
+    "GENCLS": 8
+  },
+  "model_assumptions": {
+    "system_base_mva": 100.0,
+    "nominal_frequency_hz": 50.0,
+    "dynamic_generator_model": "GENCLS",
+    "classical_inertia_m": 8.0,
+    "classical_damping": 1.0,
+    "hvdc_model": "steady-state two-terminal PQ equivalent",
+    "tds_load_model": "ANDES PQ default constant-impedance conversion"
+  },
+  "paper_actual_gscr": 0.1701,
+  "psasp_rebuilt_direct_gscr": 0.17140949759782695,
+  "scenarios": [
+    {
+      "scenario": "fault_bus30",
+      "paper_identified": 0.1639,
+      "andes_direct_gscr": 0.17140949759782695,
+      "andes_identified_gscr": 0.17140985186753016,
+      "absolute_error_to_andes_direct": 3.542697032121733e-07,
+      "relative_error_percent": 0.00020668032295584105,
+      "residual_rmse": 6.035650915453153e-07,
+      "design_rank": 72,
+      "design_condition": 783.3276533374453,
+      "port_current_kcl_rmse": 3.2822295523019026e-06,
+      "pflow_voltage_rmse": 5.397571029989716e-07,
+      "pflow_voltage_max_error": 8.143210941113921e-07,
+      "tds_steps": 1155,
+      "sample_count": 101
+    },
+    {
+      "scenario": "fault_bus25",
+      "paper_identified": 0.163,
+      "andes_direct_gscr": 0.17140949759782695,
+      "andes_identified_gscr": 0.1714098578565997,
+      "absolute_error_to_andes_direct": 3.602587727580264e-07,
+      "relative_error_percent": 0.00021017433561545753,
+      "residual_rmse": 3.5824821234259925e-07,
+      "design_rank": 72,
+      "design_condition": 108633.11430246771,
+      "port_current_kcl_rmse": 3.2775219631096655e-06,
+      "pflow_voltage_rmse": 5.397571029989716e-07,
+      "pflow_voltage_max_error": 8.143210941113921e-07,
+      "tds_steps": 1155,
+      "sample_count": 101
+    },
+    {
+      "scenario": "fault_line_bus9_bus23",
+      "paper_identified": 0.1633,
+      "andes_direct_gscr": 0.17140949759782695,
+      "andes_identified_gscr": 0.17140997700917385,
+      "absolute_error_to_andes_direct": 4.794113468986616e-07,
+      "relative_error_percent": 0.0002796877382042682,
+      "residual_rmse": 3.456748236339412e-07,
+      "design_rank": 72,
+      "design_condition": 90686.1624708698,
+      "port_current_kcl_rmse": 3.2759264265178812e-06,
+      "pflow_voltage_rmse": 5.396489178721946e-07,
+      "pflow_voltage_max_error": 8.137059417379078e-07,
+      "tds_steps": 1155,
+      "sample_count": 101
+    },
+    {
+      "scenario": "load_bus50",
+      "paper_identified": 0.165,
+      "andes_direct_gscr": 0.1722054216666348,
+      "andes_identified_gscr": 0.17281568978542897,
+      "absolute_error_to_andes_direct": 0.0006102681187941661,
+      "relative_error_percent": 0.35438380097901817,
+      "residual_rmse": 2.488566416481023e-09,
+      "design_rank": 72,
+      "design_condition": 89204.091736751,
+      "port_current_kcl_rmse": 3.2991796601966806e-06,
+      "pflow_voltage_rmse": 0.0008998707864107415,
+      "pflow_voltage_max_error": 0.0014612479201492334,
+      "tds_steps": 1155,
+      "sample_count": 101
+    }
+  ],
+  "sampling": [
+    {
+      "sample_interval_s": 0.1,
+      "sample_count": 101,
+      "andes_direct_gscr": 0.17140949759782695,
+      "identified_gscr": 0.17140985186753016,
+      "absolute_error": 3.542697032121733e-07,
+      "design_rank": 72,
+      "condition_number": 783.3276533374453,
+      "residual_rmse": 6.035650915453153e-07
+    },
+    {
+      "sample_interval_s": 0.2,
+      "sample_count": 51,
+      "andes_direct_gscr": 0.17140949759782695,
+      "identified_gscr": 0.17140985719982,
+      "absolute_error": 3.596019930440786e-07,
+      "design_rank": 72,
+      "condition_number": 891.3081298171468,
+      "residual_rmse": 9.056719341887893e-07
+    },
+    {
+      "sample_interval_s": 0.5,
+      "sample_count": 21,
+      "andes_direct_gscr": 0.17140949759782695,
+      "identified_gscr": 0.1714098729273717,
+      "absolute_error": 3.753295447495031e-07,
+      "design_rank": 72,
+      "condition_number": 3118.792045249871,
+      "residual_rmse": 9.182428754321056e-07
+    },
+    {
+      "sample_interval_s": 0.8,
+      "sample_count": 13,
+      "andes_direct_gscr": 0.17140949759782695,
+      "identified_gscr": 0.17140975353289328,
+      "absolute_error": 2.559350663344784e-07,
+      "design_rank": 72,
+      "condition_number": 5301.300810049206,
+      "residual_rmse": 4.436276984498219e-07
+    },
+    {
+      "sample_interval_s": 1.0,
+      "sample_count": 11,
+      "andes_direct_gscr": 0.17140949759782695,
+      "identified_gscr": 0.17140973829148082,
+      "absolute_error": 2.406936538690285e-07,
+      "design_rank": 72,
+      "condition_number": 4774.744586443502,
+      "residual_rmse": 5.271726733473286e-07
+    }
+  ],
+  "windows": [
+    {
+      "window_s": 10.0,
+      "sample_count": 101,
+      "andes_direct_gscr": 0.17140949759782695,
+      "identified_gscr": 0.17140985186753016,
+      "absolute_error": 3.542697032121733e-07,
+      "design_rank": 72,
+      "condition_number": 783.3276533374453,
+      "residual_rmse": 6.035650915453153e-07
+    },
+    {
+      "window_s": 8.0,
+      "sample_count": 81,
+      "andes_direct_gscr": 0.17140949759782695,
+      "identified_gscr": 0.17140984639055418,
+      "absolute_error": 3.487927272283198e-07,
+      "design_rank": 72,
+      "condition_number": 793.4426122591481,
+      "residual_rmse": 6.273149943955667e-07
+    },
+    {
+      "window_s": 6.0,
+      "sample_count": 61,
+      "andes_direct_gscr": 0.17140949759782695,
+      "identified_gscr": 0.17140984540672313,
+      "absolute_error": 3.4780889618390987e-07,
+      "design_rank": 72,
+      "condition_number": 781.6629871960006,
+      "residual_rmse": 7.088109240672279e-07
+    },
+    {
+      "window_s": 4.0,
+      "sample_count": 41,
+      "andes_direct_gscr": 0.17140949759782695,
+      "identified_gscr": 0.17140988242896885,
+      "absolute_error": 3.8483114189746814e-07,
+      "design_rank": 72,
+      "condition_number": 802.7195596690315,
+      "residual_rmse": 5.986484714329441e-07
+    }
+  ],
+  "validation_thresholds": {
+    "pflow_voltage_max_error_pu": 2e-06,
+    "port_current_kcl_rmse_pu": 1e-05,
+    "clean_fault_identification_absolute_error": 0.0001,
+    "required_real_design_rank": 72
+  }
+}
