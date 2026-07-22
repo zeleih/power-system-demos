@@ -1,0 +1,70 @@
+{
+  "engine": "ANDES 2.0.0",
+  "case": "data\\IL200_ffr.xlsx",
+  "system_base_mva": 100.0,
+  "bus_count": 200,
+  "branch_count": 245,
+  "measurement_ports": {
+    "count": 49,
+    "synchronous_machine_count": 38,
+    "ibr_count": 11
+  },
+  "final_gscr_ports": {
+    "count": 11,
+    "buses": [
+      65,
+      104,
+      105,
+      114,
+      115,
+      125,
+      126,
+      127,
+      135,
+      136,
+      147
+    ],
+    "capacities_mva": [
+      180.48,
+      118.8,
+      237.6,
+      2.04,
+      180.0,
+      156.06,
+      156.06,
+      156.06,
+      535.68,
+      535.68,
+      120.6
+    ]
+  },
+  "standard_short_circuit_gscr_xd2_without_load": 0.8109979585235259,
+  "tds_matched_theoretical_gscr_xd2_with_constant_z_load": 0.8935618719842418,
+  "pmu_identified_gscr": 0.893564462248054,
+  "pmu_identified_absolute_error": 2.5902638122188293e-06,
+  "source_port_y_relative_error": 0.00235461873157365,
+  "ibr_y_relative_error": 0.0006489166802097624,
+  "voltage_increment_rank": 49,
+  "voltage_increment_condition": 17113.130213852943,
+  "identification_residual_rmse_pu": 1.1146789448174718e-07,
+  "fault_buses": [
+    20,
+    45,
+    80,
+    110,
+    140,
+    175,
+    200
+  ],
+  "maximum_kcl_rmse_pu": 0.00018418817837176935,
+  "validation_thresholds": {
+    "full_voltage_rank": 49,
+    "maximum_voltage_condition": 50000.0,
+    "maximum_gscr_absolute_error": 0.001,
+    "maximum_source_port_y_relative_error": 0.01,
+    "maximum_ibr_y_relative_error": 0.005,
+    "maximum_kcl_rmse_pu": 0.0003,
+    "maximum_termination_identity_relative_error": 1e-10
+  },
+  "interpretation": "All 49 active-source terminals are used only for passive-network identification. The 38 synchronous-machine terminals are then terminated with machine-base xd2 Norton admittances converted to the 100-MVA system base. The final capacity-normalized gSCR is calculated exclusively at the 11 REGCA1 IBR terminals."
+}

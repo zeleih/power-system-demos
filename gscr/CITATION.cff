@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this demo, please cite the associated article."
+title: "Analytical PMU-Based gSCR Identification Demo"
+type: software
+version: 0.1.0
+authors:
+  - family-names: Han
+    given-names: Zelei
+  - family-names: Ju
+    given-names: Ping
+  - family-names: Li
+    given-names: Hongyu
+  - family-names: Liu
+    given-names: Yilu
+preferred-citation:
+  type: article
+  title: "Analytical Identification Method of Generalized Short-Circuit Ratio Using Phasor Measurement Units"
+  authors:
+    - family-names: Han
+      given-names: Zelei
+    - family-names: Ju
+      given-names: Ping
+    - family-names: Li
+      given-names: Hongyu
+    - family-names: Liu
+      given-names: Yilu
+  journal: "IET Generation, Transmission & Distribution"
+  volume: 19
+  issue: 1
+  year: 2025
+  doi: 10.1049/gtd2.70026

@@ -1,0 +1,2 @@
+﻿estimator,measurement_port_count,final_ibr_port_count,synchronous_port_count_terminated,increment_count,voltage_rank,voltage_condition,residual_rmse_pu,solver_iterations,solver_stop_code,theoretical_tds_matched_gscr,identified_gscr,gscr_absolute_error,source_port_y_relative_error,ibr_y_relative_error
+paper_analytic,49,11,38,2059,49,17113.130213852943,1.1146789448174718e-07,1,0,0.8935618719842418,0.893564462248054,2.5902638122188293e-06,0.00235461873157365,0.0006489166802097624

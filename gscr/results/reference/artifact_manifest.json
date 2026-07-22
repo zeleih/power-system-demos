@@ -1,0 +1,32 @@
+[
+  {
+    "path": "cases/cepri36/data/andes/CEPRI36_andes.xlsx",
+    "bytes": 17066,
+    "sha256": "1d35efe2d9e6073ab56db8b828656cdc80c4249c92b8bc3b015e54821d47ac33"
+  },
+  {
+    "path": "cases/il200/data/IL200_ffr.xlsx",
+    "bytes": 109157,
+    "sha256": "2d2f6d07f7442b724ccbfe5322a79d61931de88ee511e06db247744cad29fb95"
+  },
+  {
+    "path": "cases/cepri36/outputs/summary.json",
+    "bytes": 768,
+    "sha256": "ab188a6ef7b2d504951a0098de6e28b3fbe89e0a2c6641a9e4861798a887a3a1"
+  },
+  {
+    "path": "cases/cepri36/outputs/andes/summary.json",
+    "bytes": 6518,
+    "sha256": "b69dc1d5019df3f562d626ccafb425ed06165072d76908d25ca7cbcfcb4716e0"
+  },
+  {
+    "path": "cases/il200/outputs/summary.json",
+    "bytes": 1970,
+    "sha256": "7bc93f9213301d6ebe385cecfa7514eb61cef0a1fab310c640201c6efc5ea1e6"
+  },
+  {
+    "path": "notebooks/analytical_gscr_walkthrough.ipynb",
+    "bytes": 11380,
+    "sha256": "86f1ba5315dc110d055d6b96756ab4232cc5e8f2f60119462660a6a31afbed1d"
+  }
+]

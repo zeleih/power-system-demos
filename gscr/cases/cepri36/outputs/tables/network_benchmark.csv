@@ -1,0 +1,5 @@
+﻿model,gscr,difference_from_paper
+passive branches only,-0.16963164802986577,-0.3397316480298658
+constant-Z loads,0.17270445013260075,0.002604450132600744
+constant-Z loads + HVDC terminal equivalents,0.17140949759782695,0.0013094975978269474
+paper reported actual,0.1701,0.0

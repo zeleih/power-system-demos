@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=70"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "power-system-demos-gscr"
+version = "0.1.0"
+description = "Reproducible analytical PMU-based generalized short-circuit-ratio demos"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "andes==2.0.0",
+  "numpy>=2.0,<3",
+  "scipy>=1.14,<2",
+  "pandas>=2.2,<4",
+  "matplotlib>=3.9,<4",
+  "openpyxl>=3.1,<4",
+]
+
+[project.optional-dependencies]
+notebook = [
+  "nbformat>=5.10,<6",
+  "nbclient>=0.10,<1",
+  "ipykernel>=6,<8",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

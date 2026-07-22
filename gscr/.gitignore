@@ -1,0 +1,11 @@
+.venv/
+.andes/
+.mplconfig/
+__pycache__/
+*.py[cod]
+*_out.txt
+*_out.lst
+*_out.npz
+.ipynb_checkpoints/
+.jupyter_local/
+cases/cepri36/data/raw_psasp/
